@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-
+import LoadingSpinner from "./LoadingSpinner";
+import Recipe from "./Recipe";
 const Recipes = (props) => {
     const [recipes, setRecipes]  = useState([]);
 
-    const loadRecipes = async () => {
-        try{
-            const response = await fetch("/api/recipes");
-            const recipes = await response.json()
-            setRecipes(recipes)
-        } catch(err){console.log(err)}
-    }
+    useEffect(() => {
+       async function getRecipes(){
+            const response = await fetch("/api/recipes")
+                                .then(res => res.json())
+                                .then(data => data);
+            setRecipes(response);
+       } getRecipes();
+    }, [])
 
-    return <div>
-        {loadRecipes()}
-        all recipes
-    </div>
+    return <>
+        {recipes?.length === 0 && <LoadingSpinner />}
+       {recipes?.map((recipe, i) => <Recipe key={i} recipe={recipe} />)}
+    </>
 }
 
 export default Recipes;
