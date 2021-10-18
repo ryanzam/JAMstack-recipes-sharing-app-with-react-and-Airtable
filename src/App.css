@@ -1,9 +1,12 @@
-.App {
-  text-align: center;
+.recipes{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
 }
 
 .card {
-  width: 20%;
+  flex: 0 0 31%;
   margin:20px;
   height: 500px;
 }

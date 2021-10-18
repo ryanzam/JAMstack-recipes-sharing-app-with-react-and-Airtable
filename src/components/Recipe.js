@@ -1,28 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
-const Recipe = ({recipe}) => {
+const Recipe = (props) => {
+  const {recipe, notify} = props;
+  const history = useHistory();
+
+  const deleteRecipe = async (id) => {
+    try {
+      await fetch("/api/recipes", {
+        method: "DELETE", body: JSON.stringify({id})
+      });
+      notify(true, "Recipe deleted", "info")
+      window.location.reload(false);
+    } catch(err) {       
+      notify(true, "Error occured", "danger")
+    }
+  }
+
+  const editRecipe = () => {
+    history.push({pathname: '/new', state: {recipe}});
+  }
+
     return <>
-      <div className="card">
-      <div class="card-header">
-          Ratings : {recipe.Rating} / 5
-      </div>
-      <img src={recipe.imageURL[0].url} class="card-img-top" alt="..." />
-      <div className="card-body">
-        <h5 className="card-title">{recipe.title}</h5>
-        <h6 className="card-text">{recipe.brief}</h6>
-        <p className="card-text">Ingredients: {recipe.ingredients}</p>
-        <p className="card-text">{recipe.description}</p>
-      </div>
-      <div className="card-footer">
-          <cite title="Source Title">Posted by : {recipe.lastmodifiedby.name}, {recipe.Created.split("T")[0]}</cite>
-      </div>
-      <div className="list-group list-group-flush">
-        <li className="list-group-item">
-          <a href="#" className="btn btn-secondary">Edit</a>
-          <a href="#" className="btn btn-danger">Delete</a>
-        </li>
-      </div>
-    </div>
+          <Card>
+            <Card.Header>Ratings : {recipe.Rating} / 5</Card.Header>
+            <Card.Img variant="top" src={!recipe ? recipe?.imageURL[0]?.url : ""} />
+            <Card.Body>
+              <Card.Title>{recipe.Title}</Card.Title>
+              <Card.Text>{recipe.brief}</Card.Text>
+              <Card.Text>Ingredients : {recipe.ingridents}</Card.Text>
+              <Card.Text>Description : {recipe.description}</Card.Text>
+            </Card.Body>
+            <Card.Footer>
+              <Button onClick={() => editRecipe()} variant="secondary"><i class="bi bi-pencil"></i> Edit</Button>
+              <Button onClick={()=> deleteRecipe(recipe.id)} variant="danger"><i class="bi bi-trash"></i> Delete</Button>
+            </Card.Footer>
+    </Card>
     </>
 }
 
