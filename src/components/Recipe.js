@@ -24,8 +24,8 @@ const Recipe = (props) => {
 
     return <>
           <Card>
-            <Card.Header>Ratings : {recipe.Rating} / 5</Card.Header>
-            <Card.Img variant="top" src={!recipe ? recipe?.imageURL[0]?.url : ""} />
+            <Card.Header>by {recipe.lastmodifiedby.name}</Card.Header>
+            <Card.Img variant="top" src={recipe.imageURL ? recipe.imageURL[0].url : ""} />
             <Card.Body>
               <Card.Title>{recipe.Title}</Card.Title>
               <Card.Text>{recipe.brief}</Card.Text>

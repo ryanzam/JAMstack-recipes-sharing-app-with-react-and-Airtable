@@ -16,12 +16,12 @@ module.exports = {
               const fields = JSON.parse(e.body);
               try{
                      const newRecipe = await table.create([{fields}]);
+                     console.log(newRecipe);
                      return {statusCode: 201, body: JSON.stringify(newRecipe)}
               } catch(err) 
               { 
                      return {statusCode: 500, body: {}}
               }
-
        },
 
        updateRecipe: async(e) => {

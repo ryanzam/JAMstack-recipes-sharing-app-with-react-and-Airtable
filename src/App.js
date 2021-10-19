@@ -7,6 +7,7 @@ import {
 import Recipes from './components/Recipes';
 import SideBar from './components/SideBar';
 import CreateRecipe from './components/CreateRecipes';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -14,11 +15,14 @@ function App() {
        <div style={{ display: "flex", height: "100%" }}>
         <SideBar />
         <Switch>
-            <Route path="/all">
+            <Route path="/all" exact>
               <Recipes />
             </Route>
-            <Route path="/new">
+            <Route path="/new" exact>
               <CreateRecipe />
+            </Route>
+            <Route>
+              <Home />
             </Route>
           </Switch>
         </div>
